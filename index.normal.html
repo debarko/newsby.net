@@ -37,10 +37,6 @@
     Image4.src = "images/1-1-maps-001.jpg";
     Image5 = new Image();
     Image5.src = "images/tweet.png";
-    setTimeout(function() {
-      document.getElementById('preloader').style.display = 'none';
-    }, 30000);
-
   </SCRIPT>
 <!--
 	<link rel="image_src" href="/images/notify_better_image.png" />
@@ -54,6 +50,8 @@
   <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <style>
     body {
+      padding: 0px;
+      margin: 0px;
       overflow-x: hidden;
       font-family: 'open sans', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -157,17 +155,6 @@
       line-height: 2em;
       padding: 0.5em 0.5em;
       text-decoration: none;
-    }
-
-    div#preloader {
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 999;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-      background: #333 url('./images/loading.gif') no-repeat center center;
     }
 
     .arrow {
@@ -293,6 +280,7 @@
       position: relative;
       top: -9em;
       padding: 1em 1em;
+      font-size: 2em;
     }
 
     @media (max-device-width: 750px), (orientation: portrait) {
@@ -391,7 +379,6 @@
 	</style>
 </head>
 <body>
-  <div id="preloader"></div>
   <div class="main">
     <section class="page1">
       <div class="pattern">
@@ -543,9 +530,6 @@
     </section>
   </div>
   <link href="./classic-081711.css" rel="stylesheet" type="text/css">
-  <link href="./normalize.css" rel="stylesheet" type="text/css">
-
-  <script type="text/javascript" src="./jquery-1.9.1.min.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -574,13 +558,11 @@
             +"&tw_p=tweetbutton&url="+
             encodeURIComponent(window.location.href)
             +"&via=folksfreak";
-      $("#tweeter-send").attr('href', url);
-      $("#texts").text(selectedText).fadeIn("slow").delay(10000).fadeOut("slow", rotateTerm);
+      document.getElementById("tweeter-send").href = url;
+      document.getElementById("texts").innerHTML = selectedText;
+      setTimeout(rotateTerm, 10000);
     }
-    $(document).ready(function(){
-      rotateTerm();
-      $('#preloader').fadeOut('slow',function(){$(this).remove();});
-    });
+    rotateTerm();
   </script>
 </body>
 </html>
