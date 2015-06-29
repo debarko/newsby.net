@@ -424,7 +424,7 @@
           </div>
           <!--End mc_embed_signup-->
         </div>
-        <div class="arrow scroll">
+        <div class="arrow scroll" onclick="smoothScroll('homepage-features-wrapper');return false">
         </div>
         <nav>
           <ul>
@@ -439,7 +439,7 @@
     </section>
 
     <section class="page2">
-      <div class="page_container">
+      <div id="homepage-features-wrapper" class="page_container">
         <div class="question">
           <h2>What are the features?</h2>
         </div>
@@ -541,7 +541,7 @@
     ga('require', 'linkid', 'linkid.js');
     ga('send', 'pageview');
   </script>
-  <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+  
   <script>
     var terms = [
       '"Journalism will kill you, but it will keep you alive while you\’re at it."',
@@ -565,18 +565,50 @@
       setTimeout(rotateTerm, 10000);
     }
     rotateTerm();
-    /*Plugin for scrolling to a location Start*/
-		$.fn.scrollView = function () {
-			return this.each(function () {
-					$('html, body').animate({
-							scrollTop: $(this).offset().top
-					}, 1000);
-			});
+    /**/
+    function currentYPosition() {
+			// Firefox, Chrome, Opera, Safari
+			if (self.pageYOffset) return self.pageYOffset;
+			// Internet Explorer 6 - standards mode
+			if (document.documentElement && document.documentElement.scrollTop)
+					return document.documentElement.scrollTop;
+			// Internet Explorer 6, 7 and 8
+			if (document.body.scrollTop) return document.body.scrollTop;
+			return 0;
+		}
+		function elmYPosition(eID) {
+			var elm = document.getElementById(eID);
+			var y = elm.offsetTop;
+			var node = elm;
+			while (node.offsetParent && node.offsetParent != document.body) {
+					node = node.offsetParent;
+					y += node.offsetTop;
+			} return y;
+		}
+		function smoothScroll(eID) {
+			var startY = currentYPosition();
+			var stopY = elmYPosition(eID);
+			var distance = stopY > startY ? stopY - startY : startY - stopY;
+			if (distance < 100) {
+					scrollTo(0, stopY); return;
+			}
+			var speed = Math.round(distance / 100);
+			if (speed >= 20) speed = 20;
+			var step = Math.round(distance / 25);
+			var leapY = stopY > startY ? startY + step : startY - step;
+			var timer = 0;
+			if (stopY > startY) {
+					for ( var i=startY; i<stopY; i+=step ) {
+							setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+							leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+					} return;
+			}
+			for ( var i=startY; i>stopY; i-=step ) {
+					setTimeout("window.scrollTo(0, "+leapY+")", timer * speed);
+					leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+			}
 		}
     /**/
-    $(".arrow").on("click", function() {
-			$('.page_container').scrollView();
-		});
   </script>
 </body>
 </html>
